@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Work Day Scheduler</title>
+  </head>
+
+  <body>
+    <header class="jumbotron">
+      <h1 class="display-3">Work Day Scheduler</h1>
+      <p class="lead">A simple calendar app for scheduling your work day</p>
+      <p id="currentDay" class="lead"></p>
+	  <div id="datetime"> </div>
+	</header>
+    <div class="container">
+		
+      <!-- Timeblocks go here -->
+      <div class="row timerow">
+      	<div class="col-md-2 col-sm-3">
+      		<div class="time-block" style="text-transform:uppercase">9 AM</div>      	
+      	</div>
+      	<div class="col-md-8 col-sm-6">
+      		<textarea class="description past" style="width:100%" placeholder="Enter appointment details here"></textarea>
+      	</div>
+      	<div class="col-md-2 col-sm-3">
+      		<div class="saveBtn">
+      			<a href="#" class="savetrigger" style="color:inherit"><i class="fas fa-save"></i></a>
+      		</div>      	
+      	</div>      	      	
+	  </div>
+	  
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+	<script type="text/javascript">
+		
+    
+	$(document).ready(function(){
+	
+		var initialhour = 9;
+		var currhour = moment().hour();
+		if  (parseInt(currhour) == 9)
+    		$(".description").removeClass("past").addClass("present");
+    	var initialIndex = 0;	
+    	var calinfo = JSON.parse(localStorage.getItem('calendar'));
+		if (!$.isEmptyObject(calinfo)){
+			$(".description").html(calinfo["9 am"]);		
+		}
+    	for (var i =1; i<=8; i++){
+    		var cloned = $(".timerow").first().clone(false);
+     		var hour  = moment().hour(initialhour +  i);
+     		var hournum = hour.format("H");
+    		var hour_formatted = hour.format("h a");
+    		$(cloned).find(".time-block").html(hour_formatted);
+    		
+    		if (currhour == hournum)
+     			$(cloned).find(".description").removeClass("past").addClass("present");
+     		if (hournum > currhour)
+     			$(cloned).find(".description").removeClass("past").addClass("future");
+     		if (!$.isEmptyObject(calinfo) && calinfo[hour_formatted])
+     			$(cloned).find(".description").val(calinfo[hour_formatted]);
+  			$(".timerow").last().after(cloned);
+    	}
+    	
+    	$(".savetrigger").on("click",function(e){
+    		e.preventDefault();
+    		var cal = {};
+    		$(".timerow").each(function(){
+    			var thetime = $(this).find(".time-block").html().toLowerCase();
+    			var theevent = $(this).find(".description").val();
+    			cal[thetime] = theevent;
+    		});
+    		console.log(cal);
+    		//alert(JSON.stringify(cal));
+    		window.localStorage.setItem('calendar', JSON.stringify(cal));
+			alert("calendar saved");
+			
+		});
+    });
+    
+    </script>
+  </body>
+</html>
