@@ -33,12 +33,15 @@
 		
       <!-- Timeblocks go here -->
       <div class="row timerow">
+		  <!--col for time-->
       	<div class="col-md-2 col-sm-3">
       		<div class="time-block" style="text-transform:uppercase">9 AM</div>      	
-      	</div>
+		  </div>
+		  <!--col for event details-->
       	<div class="col-md-8 col-sm-6">
       		<textarea class="description past" style="width:100%" placeholder="Enter appointment details here"></textarea>
-      	</div>
+		  </div>
+		  <!--col for save button-->
       	<div class="col-md-2 col-sm-3">
       		<div class="saveBtn">
       			<a href="#" class="savetrigger" style="color:inherit"><i class="fas fa-save"></i></a>
@@ -54,9 +57,10 @@
 		
     
 	$(document).ready(function(){
-	
+		// sets when the initial hour starts
 		var initialhour = 9;
 		var currhour = moment().hour();
+		//below used for changing colors for calendar blocks 
 		if  (parseInt(currhour) == 9)
     		$(".description").removeClass("past").addClass("present");
     	var initialIndex = 0;	
@@ -64,13 +68,16 @@
 		if (!$.isEmptyObject(calinfo)){
 			$(".description").html(calinfo["9 am"]);		
 		}
+		//only 8 hours from 9 to 5 which is why i less than 8
     	for (var i =1; i<=8; i++){
-    		var cloned = $(".timerow").first().clone(false);
+			//cloned is used for updating hours in calendar
+			var cloned = $(".timerow").first().clone(false);
      		var hour  = moment().hour(initialhour +  i);
-     		var hournum = hour.format("H");
+			 var hournum = hour.format("H");
+			 //used for setting format of hours in calendar 
     		var hour_formatted = hour.format("h a");
     		$(cloned).find(".time-block").html(hour_formatted);
-    		
+    		//used for changing colors for calendar blocks 
     		if (currhour == hournum)
      			$(cloned).find(".description").removeClass("past").addClass("present");
      		if (hournum > currhour)
@@ -79,19 +86,19 @@
      			$(cloned).find(".description").val(calinfo[hour_formatted]);
   			$(".timerow").last().after(cloned);
     	}
-    	
-    	$(".savetrigger").on("click",function(e){
-    		e.preventDefault();
+		
+		//on click for any buttons with savetrigger class
+    	$(".savetrigger").on("click",function(saveToLocalStorage){
+			//prevent default behaviour for onclick
+			saveToLocalStorage.preventDefault();
     		var cal = {};
-    		$(".timerow").each(function(){
+			$(".timerow").each(function(){
     			var thetime = $(this).find(".time-block").html().toLowerCase();
     			var theevent = $(this).find(".description").val();
     			cal[thetime] = theevent;
     		});
-    		console.log(cal);
-    		//alert(JSON.stringify(cal));
     		window.localStorage.setItem('calendar', JSON.stringify(cal));
-			alert("calendar saved");
+			alert("calendar appointment saved");
 			
 		});
     });
