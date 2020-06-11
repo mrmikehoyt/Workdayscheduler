@@ -1,4 +1,4 @@
-### Eat Da Burger
+### Workday Scheduler
 #
 ![alt text](images/workdayschedulericon.jpg)
 
