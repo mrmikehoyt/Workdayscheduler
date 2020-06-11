@@ -2,7 +2,7 @@
 #
 ![alt text](images/workdayschedulericon.jpg)
 
-## This is a simple Workday scheduler icon. Where you enter a note or appointment in your workday scheduler and than click on the save icon. This application only allows you to schedule items on the current day between 9am and 5pm. The current time is highlighted in red and times that have not passed yet are highlighted in green.  Than you either click on Devour, or Restore. Click on the below Image which is also a link to be brought to the application which is available on github. This application uses localstorage to save your notes 
+## This is a simple Workday scheduler icon. Where you enter a note or appointment in your workday scheduler and than click on the save icon. This application only allows you to schedule items on the current day between 9am and 5pm. The current time is highlighted in red and times that have not passed yet are highlighted in green.   Click on the below Image which is also a link to be brought to the application which is available on github. This application uses localstorage to save your notes 
 ##
 <a href="https://mrmikehoyt.github.io/Workdayscheduler/"><img border="0" alt="Workdayscheduler" src="images/workdayschedulerwebsite.JPG" width="1046" height="839">
 
